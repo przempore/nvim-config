@@ -29,20 +29,21 @@ A comprehensive Neovim configuration that works seamlessly on both Nix and non-N
 
 ```bash
 # Clone and install
-bash <(curl -s https://raw.githubusercontent.com/YOUR_USERNAME/nvim-config/main/install.sh)
+bash <(curl -s https://raw.githubusercontent.com/przempore/nvim-config/main/install.sh)
 
-# Or with a custom repository URL
-./install.sh https://github.com/YOUR_USERNAME/nvim-config
+# Or clone and install manually
+git clone https://github.com/przempore/nvim-config.git
+cd nvim-config
+./install.sh
 ```
 
 ### Windows
 
 ```powershell
-# Run in PowerShell
+# Clone and install
+git clone https://github.com/przempore/nvim-config.git
+cd nvim-config
 .\install.ps1
-
-# Or with a custom repository URL
-.\install.ps1 https://github.com/YOUR_USERNAME/nvim-config
 ```
 
 ### NixOS/Nix with Home Manager
@@ -54,7 +55,7 @@ Add to your `flake.nix`:
 ```nix
 {
   inputs = {
-    nvim-config.url = "github:YOUR_USERNAME/nvim-config";
+    nvim-config.url = "github:przempore/nvim-config";
     # ... other inputs
   };
 
@@ -83,19 +84,17 @@ Add to your `flake.nix`:
 #### Direct in NixOS Configuration
 
 ```nix
+# This example uses builtins.fetchGit which is less recommended
+# Prefer using it as a flake input (see above) for better reproducibility
+
 { config, pkgs, ... }:
 
 let
-  nvim-config = builtins.fetchGit {
-    url = "https://github.com/YOUR_USERNAME/nvim-config";
-    ref = "main";
-    # Optional: pin to a specific revision
-    # rev = "abc123...";
-  };
+  nvim-config-flake = builtins.getFlake "github:przempore/nvim-config";
 in
 {
   home.file.".config/nvim" = {
-    source = nvim-config;
+    source = nvim-config-flake.packages.${pkgs.system}.config;
     recursive = true;
   };
 
@@ -201,10 +200,12 @@ LSP servers are configured in `lua/my_config/lsp.lua`. Add new language servers 
 
 ## Environment Detection
 
-The configuration automatically detects if it's running under Nix by checking for the `NIX_PROFILES` environment variable:
+The configuration automatically detects if plugins are managed by Nix by checking if core plugins (like plenary.nvim) are already in the runtimepath:
 
-- **Nix environment**: Plugins are managed by Nix, lazy.nvim is not loaded
-- **Non-Nix environment**: Lazy.nvim automatically installs and manages plugins
+- **Nix-managed plugins** (NixOS with home-manager): Plugins are pre-installed, lazy.nvim is not loaded
+- **Standalone installation**: Lazy.nvim automatically installs and manages plugins
+
+This detection works correctly even on systems with Nix installed but not using Nix to manage Neovim plugins.
 
 ## Troubleshooting
 
