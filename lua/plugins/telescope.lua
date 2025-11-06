@@ -25,10 +25,10 @@ return {
           },
         },
       })
-      require("telescope").load_extension("fzf")
+      -- Load fzf extension if it's available (build might fail on some systems)
+      pcall(require("telescope").load_extension, "fzf")
     end,
   },
-  { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 
   -- Harpoon
   {

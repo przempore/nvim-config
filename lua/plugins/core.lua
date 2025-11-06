@@ -32,7 +32,22 @@ return {
   -- File navigation
   {
     "stevearc/oil.nvim",
-    config = true,
+    config = function()
+      require("oil").setup({
+        default_file_explorer = false,
+        columns = { "icon", "permissions", "size", "mtime" },
+        delete_to_trash = false,
+        skip_confirm_for_simple_edits = false,
+        view_options = { show_hidden = true },
+        float = {
+          padding = 2,
+          border = "rounded",
+        },
+      })
+      -- Set up keymap
+      vim.keymap.set("n", "<leader>ov", ":Oil --float<CR>",
+        { noremap = true, silent = true, desc = "Open Oil file explorer" })
+    end,
   },
 
   -- Git integration

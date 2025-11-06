@@ -232,7 +232,7 @@ function M.setup()
           }
         },
         copilot = {
-          module = "blink-copilot",
+          module = "blink-cmp-copilot",
         },
         dictionary = {
           module = 'blink-cmp-dictionary',

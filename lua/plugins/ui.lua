@@ -9,12 +9,13 @@ return {
   },
 
   -- Colorful menu
+  { "xzbdmw/colorful-menu.nvim" },
   { "nvzone/menu", dependencies = { "nvzone/volt" } },
   { "nvzone/volt" },
 
   -- Palette
   {
-    "BourgeoisBear/palette.nvim",
+    "roobert/palette.nvim",
     config = function()
       vim.cmd("colorscheme palette")
     end,

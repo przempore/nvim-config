@@ -50,7 +50,7 @@ return {
       "rafamadriz/friendly-snippets",
       "L3MON4D3/LuaSnip",
       "onsails/lspkind.nvim",
-      "moyiz/blink-cmp-dictionary",
+      "Kaiser-Yang/blink-cmp-dictionary",
     },
     version = "*",
     opts = {},
@@ -74,7 +74,7 @@ return {
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
+    branch = "main",
     dependencies = {
       { "zbirenbaum/copilot.lua" },
       { "nvim-lua/plenary.nvim" },
