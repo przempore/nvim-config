@@ -22,7 +22,7 @@
             config.allowUnfree = true;
           };
 
-          inherit (pkgs-with-overlay) vimPlugins vimUtils fetchFromGitHub neovim-unwrapped wrapNeovim stdenv;
+          inherit (pkgs-with-overlay) vimPlugins vimUtils fetchFromGitHub wrapNeovim stdenv;
 
           cscope_maps-nvim = vimUtils.buildVimPlugin {
             name = "cscope_maps-nvim";
@@ -61,7 +61,7 @@
             nvimSkipModules = [ "git-worktree.test" "git-worktree" ];
           };
 
-          neovim-pkg = neovim-unwrapped.overrideAttrs (old: {
+          neovim-pkg = inputs.neovim-nightly-overlay.packages.${system}.neovim.overrideAttrs (old: {
             meta = old.meta or { } // {
               maintainers = [ ];
             };
@@ -75,6 +75,73 @@
               cp -r after init.lua lua $out/
             '';
           };
+
+          pluginsList = [
+            cscope_maps-nvim
+            telescope-git-worktrees
+            wf-nvim
+          ] ++ (with vimPlugins; [
+            CopilotChat-nvim
+            avante-nvim
+            blink-cmp
+            blink-cmp-avante
+            blink-cmp-dictionary
+            blink-cmp-copilot
+            colorful-menu-nvim
+            comment-nvim
+            copilot-lua
+            debugprint-nvim
+            dressing-nvim
+            fidget-nvim
+            firenvim
+            friendly-snippets
+            fzf-checkout-vim
+            fzf-vim
+            gitsigns-nvim
+            harpoon2
+            img-clip-nvim
+            lsp-zero-nvim
+            lsp_extensions-nvim
+            lspkind-nvim
+            lspsaga-nvim
+            luasnip
+            markdown-preview-nvim
+            mason-lspconfig-nvim
+            mason-nvim
+            mason-tool-installer-nvim
+            neodev-nvim
+            nvim-dap
+            nvim-dap-ui
+            nvim-dap-virtual-text
+            nvim-fzf
+            nvim-lint
+            nvim-lspconfig
+            nvim-notify
+            nvim-numbertoggle
+            nvim-treesitter-context
+            nvim-treesitter-textobjects
+            nvim-treesitter.withAllGrammars
+            nvim-web-devicons
+            obsidian-nvim
+            oil-nvim
+            palette-nvim
+            playground
+            plenary-nvim
+            pomo-nvim
+            rust-vim
+            snacks-nvim
+            telescope-fzf-native-nvim
+            telescope-nvim
+            undotree
+            vim-be-good
+            vim-clang-format
+            vim-fugitive
+            vim-go
+            vim-qml
+            vim-rhubarb
+            vim-sleuth
+            zen-mode-nvim
+          ]);
         in
         {
           packages = {
@@ -84,77 +151,20 @@
                   lua dofile("${configFiles}/init.lua")
                 '';
                 packages.all = {
-                  start = [
-                    cscope_maps-nvim
-                    telescope-git-worktrees
-                    wf-nvim
-                  ] ++ (with vimPlugins; [
-                    CopilotChat-nvim
-                    avante-nvim
-                    blink-cmp
-                    blink-cmp-avante
-                    blink-cmp-dictionary
-                    blink-cmp-copilot
-                    colorful-menu-nvim
-                    comment-nvim
-                    copilot-lua
-                    debugprint-nvim
-                    dressing-nvim
-                    fidget-nvim
-                    firenvim
-                    friendly-snippets
-                    fzf-checkout-vim
-                    fzf-vim
-                    gitsigns-nvim
-                    harpoon2
-                    img-clip-nvim
-                    lsp-zero-nvim
-                    lsp_extensions-nvim
-                    lspkind-nvim
-                    lspsaga-nvim
-                    luasnip
-                    markdown-preview-nvim
-                    mason-lspconfig-nvim
-                    mason-nvim
-                    mason-tool-installer-nvim
-                    neodev-nvim
-                    nvim-dap
-                    nvim-dap-ui
-                    nvim-dap-virtual-text
-                    nvim-fzf
-                    nvim-lint
-                    nvim-lspconfig
-                    nvim-notify
-                    nvim-numbertoggle
-                    nvim-treesitter-context
-                    nvim-treesitter-textobjects
-                    nvim-treesitter.withAllGrammars
-                    nvim-web-devicons
-                    obsidian-nvim
-                    oil-nvim
-                    palette-nvim
-                    playground
-                    plenary-nvim
-                    pomo-nvim
-                    rust-vim
-                    snacks-nvim
-                    telescope-fzf-native-nvim
-                    telescope-nvim
-                    undotree
-                    vim-be-good
-                    vim-clang-format
-                    vim-fugitive
-                    vim-go
-                    vim-qml
-                    vim-rhubarb
-                    vim-sleuth
-                    zen-mode-nvim
-                  ]);
+                  start = pluginsList;
                 };
               };
             };
 
             config = configFiles;
+
+            neovim-unwrapped = neovim-pkg;
+          };
+
+          # Using legacyPackages as a workaround since flake-parts doesn't have
+          # a standard way to export custom per-system attributes
+          legacyPackages = {
+            inherit pluginsList;
           };
         };
 
