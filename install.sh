@@ -63,19 +63,20 @@ fi
 
 echo -e "\n${GREEN}✓${NC} Configuration installed to: $CONFIG_DIR"
 
-if command -v nix &> /dev/null && [ -n "$NIX_PROFILES" ]; then
-    echo -e "\n${GREEN}✓${NC} Nix detected - plugins will be managed by Nix"
-    echo "  Add this config as a flake input to your NixOS configuration"
-else
-    echo -e "\n${GREEN}Starting Neovim to install plugins...${NC}"
-    echo "  Lazy.nvim will automatically install all plugins"
-    echo "  Press 'q' to close Lazy after installation completes"
-    echo ""
-    sleep 2
+echo -e "\n${GREEN}Starting Neovim to install plugins...${NC}"
+echo "  Lazy.nvim will automatically install all plugins"
+echo "  This may take a few minutes on first run..."
+echo ""
+sleep 2
 
-    nvim --headless "+Lazy! sync" +qa
+# Launch nvim to trigger lazy.nvim bootstrap
+nvim --headless "+Lazy! sync" +qa
 
+if [ $? -eq 0 ]; then
     echo -e "\n${GREEN}✓${NC} Plugins installed successfully!"
+else
+    echo -e "\n${YELLOW}Warning: Plugin installation may have encountered issues${NC}"
+    echo "Run 'nvim' and execute ':Lazy sync' to retry"
 fi
 
 echo -e "\n${GREEN}Installation complete!${NC}"
