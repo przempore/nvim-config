@@ -3,7 +3,6 @@
 
 set -e
 
-# Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -12,7 +11,6 @@ NC='\033[0m' # No Color
 echo -e "${GREEN}Neovim Configuration Installer${NC}"
 echo -e "${GREEN}================================${NC}\n"
 
-# Check if nvim is installed
 if ! command -v nvim &> /dev/null; then
     echo -e "${RED}Error: Neovim is not installed!${NC}"
     echo "Please install Neovim first:"
@@ -24,7 +22,6 @@ fi
 
 echo -e "${GREEN}✓${NC} Neovim found: $(nvim --version | head -n1)"
 
-# Check for git
 if ! command -v git &> /dev/null; then
     echo -e "${RED}Error: git is not installed!${NC}"
     exit 1
@@ -32,14 +29,12 @@ fi
 
 echo -e "${GREEN}✓${NC} Git found"
 
-# Determine config directory
 if [[ "$OSTYPE" == "darwin"* ]]; then
     CONFIG_DIR="$HOME/.config/nvim"
 else
     CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 fi
 
-# Backup existing config
 if [ -d "$CONFIG_DIR" ]; then
     BACKUP_DIR="${CONFIG_DIR}.backup.$(date +%Y%m%d_%H%M%S)"
     echo -e "${YELLOW}Warning: Existing Neovim config found${NC}"
@@ -47,7 +42,6 @@ if [ -d "$CONFIG_DIR" ]; then
     mv "$CONFIG_DIR" "$BACKUP_DIR"
 fi
 
-# Clone or copy config
 if [ -n "$1" ]; then
     echo -e "\n${GREEN}Installing from: $1${NC}"
     if [[ "$1" == http* ]] || [[ "$1" == git@* ]]; then
@@ -56,7 +50,6 @@ if [ -n "$1" ]; then
         cp -r "$1" "$CONFIG_DIR"
     fi
 else
-    # If running from the repo, copy current directory
     if [ -f "$(dirname "$0")/init.lua" ]; then
         echo -e "\n${GREEN}Installing from current directory${NC}"
         mkdir -p "$CONFIG_DIR"
@@ -70,7 +63,6 @@ fi
 
 echo -e "\n${GREEN}✓${NC} Configuration installed to: $CONFIG_DIR"
 
-# Check if in Nix environment
 if command -v nix &> /dev/null && [ -n "$NIX_PROFILES" ]; then
     echo -e "\n${GREEN}✓${NC} Nix detected - plugins will be managed by Nix"
     echo "  Add this config as a flake input to your NixOS configuration"
@@ -81,7 +73,6 @@ else
     echo ""
     sleep 2
 
-    # Launch nvim to trigger lazy.nvim bootstrap
     nvim --headless "+Lazy! sync" +qa
 
     echo -e "\n${GREEN}✓${NC} Plugins installed successfully!"

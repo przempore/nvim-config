@@ -14,19 +14,16 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
 
-      perSystem = { system, pkgs, ... }:
+      perSystem = { system, ... }:
         let
-          # Import nixpkgs with overlays
           pkgs-with-overlay = import inputs.nixpkgs {
             inherit system;
             overlays = [ inputs.neovim-nightly-overlay.overlays.default ];
             config.allowUnfree = true;
           };
 
-          # Use the overlayed pkgs for plugin building
           inherit (pkgs-with-overlay) vimPlugins vimUtils fetchFromGitHub neovim-unwrapped wrapNeovim stdenv;
 
-          # Custom plugins not in nixpkgs
           cscope_maps-nvim = vimUtils.buildVimPlugin {
             name = "cscope_maps-nvim";
             nativeBuildInputs = with pkgs-with-overlay; [ pkg-config readline ];
@@ -81,7 +78,6 @@
         in
         {
           packages = {
-            # Full Neovim package with plugins
             default = wrapNeovim neovim-pkg {
               configure = {
                 customRC = ''
@@ -158,14 +154,11 @@
               };
             };
 
-            # Just the config files (for use as a flake input)
             config = configFiles;
           };
         };
 
-      # Flake-level outputs (not per-system)
       flake = {
-        # Home-manager module
         homeManagerModules.default = { config, lib, pkgs, ... }: {
           options.programs.nvim-config = {
             enable = lib.mkEnableOption "nvim-config";

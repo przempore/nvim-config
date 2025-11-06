@@ -8,7 +8,6 @@ param(
 Write-Host "Neovim Configuration Installer" -ForegroundColor Green
 Write-Host "================================`n" -ForegroundColor Green
 
-# Check if Neovim is installed
 if (-not (Get-Command nvim -ErrorAction SilentlyContinue)) {
     Write-Host "Error: Neovim is not installed!" -ForegroundColor Red
     Write-Host "`nPlease install Neovim first:"
@@ -22,7 +21,6 @@ if (-not (Get-Command nvim -ErrorAction SilentlyContinue)) {
 $nvimVersion = & nvim --version | Select-Object -First 1
 Write-Host "✓ Neovim found: $nvimVersion" -ForegroundColor Green
 
-# Check for git
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
     Write-Host "Error: git is not installed!" -ForegroundColor Red
     exit 1
@@ -30,10 +28,8 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 
 Write-Host "✓ Git found" -ForegroundColor Green
 
-# Determine config directory
 $configDir = "$env:LOCALAPPDATA\nvim"
 
-# Backup existing config
 if (Test-Path $configDir) {
     $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
     $backupDir = "${configDir}.backup.$timestamp"
@@ -42,7 +38,6 @@ if (Test-Path $configDir) {
     Move-Item $configDir $backupDir
 }
 
-# Clone or copy config
 if ($Source) {
     Write-Host "`nInstalling from: $Source" -ForegroundColor Green
     if ($Source -match "^http|^git@") {
@@ -55,7 +50,6 @@ if ($Source) {
         Copy-Item -Path $Source -Destination $configDir -Recurse
     }
 } else {
-    # If running from the repo, copy current directory
     $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
     if (Test-Path "$scriptDir\init.lua") {
         Write-Host "`nInstalling from current directory" -ForegroundColor Green
@@ -77,7 +71,6 @@ Write-Host ""
 
 Start-Sleep -Seconds 2
 
-# Launch nvim to trigger lazy.nvim bootstrap
 & nvim --headless "+Lazy! sync" +qa
 
 if ($LASTEXITCODE -eq 0) {

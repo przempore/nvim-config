@@ -1,10 +1,6 @@
-# For non-flake Nix users
-# Usage: nix-build or import in your configuration
-
 { pkgs ? import <nixpkgs> { } }:
 
 let
-  # Just the config files
   configSrc = pkgs.stdenv.mkDerivation {
     name = "nvim-config";
     src = ./.;
@@ -15,7 +11,6 @@ let
   };
 in
 {
-  # Export the config source for use in home.file
   inherit configSrc;
 
   # Usage example:
