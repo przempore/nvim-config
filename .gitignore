@@ -1,0 +1,22 @@
+# Neovim data
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Lazy.nvim (managed per-installation)
+lazy-lock.json
+
+# LSP/Mason data (managed per-installation)
+.luarc.json
+
+# Nix build results
+result
+result-*
+
+# Editor files
+.vscode/
+.idea/
+
+# OS files
+Thumbs.db
