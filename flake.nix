@@ -94,7 +94,7 @@
                     blink-cmp
                     blink-cmp-avante
                     blink-cmp-dictionary
-                    blink-copilot
+                    blink-cmp-copilot
                     colorful-menu-nvim
                     comment-nvim
                     copilot-lua
