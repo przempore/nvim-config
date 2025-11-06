@@ -130,6 +130,11 @@ require("pomo").setup({
   },
 })
 
-require("my_config.avante")
+-- Only load avante if it's available (it needs to be built first)
+local avante_ok, _ = pcall(require, "avante")
+if avante_ok then
+  require("my_config.avante")
+end
+
 require("my_config.blink_cmp").setup()
 require("my_config.debugprint")

@@ -44,6 +44,9 @@ return {
   {
     "saghen/blink.cmp",
     dependencies = {
+      "Saghen/blink.compat",
+      "giuxtaposition/blink-cmp-copilot",
+      'Kaiser-Yang/blink-cmp-avante',
       "rafamadriz/friendly-snippets",
       "L3MON4D3/LuaSnip",
       "onsails/lspkind.nvim",
@@ -80,7 +83,6 @@ return {
       require("CopilotChat").setup({})
     end,
   },
-  { "giuxtaposition/blink-cmp-copilot" },
 
   -- Avante AI
   {
@@ -121,9 +123,6 @@ return {
       require("my_config.avante")
     end,
   },
-  { "MeanderingProgrammer/render-markdown.nvim" },
-  { "Saghen/blink.compat" },
-  { "supermaven-inc/supermaven-nvim" },
 
   -- Linting
   {
