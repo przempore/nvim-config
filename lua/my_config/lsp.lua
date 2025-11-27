@@ -6,6 +6,36 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 capabilities.window = capabilities.window or {}
 capabilities.window.workDoneProgress = false
 
+-- Some servers send `containerName = vim.NIL` which crashes
+-- vim.lsp.util.symbols_to_items when Telescope renders workspace symbols.
+do
+  local util = vim.lsp.util
+  if not util._container_name_sanitized then
+    util._container_name_sanitized = true
+    local orig_symbols_to_items = util.symbols_to_items
+
+    local function sanitize(symbol)
+      if type(symbol.containerName) ~= "string" then
+        symbol.containerName = nil
+      end
+      if symbol.children then
+        for _, child in ipairs(symbol.children) do
+          sanitize(child)
+        end
+      end
+    end
+
+    util.symbols_to_items = function(symbols, bufnr, position_encoding)
+      if type(symbols) == "table" then
+        for _, symbol in ipairs(symbols) do
+          sanitize(symbol)
+        end
+      end
+      return orig_symbols_to_items(symbols, bufnr, position_encoding)
+    end
+  end
+end
+
 local clangd_capabilities = vim.deepcopy(capabilities)
 clangd_capabilities.textDocument.semanticHighlighting = true
 -- If using clangd >= 11, offsetEncoding defaults to utf-8, otherwise set explicitly
