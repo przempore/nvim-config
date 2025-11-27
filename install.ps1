@@ -62,6 +62,20 @@ if ($Source) {
     }
 }
 
+# Download dictionary words used by blink-cmp-dictionary
+$dictDir = Join-Path $env:LOCALAPPDATA "nvim\\dictionary"
+$dictFile = Join-Path $dictDir "words.txt"
+$dictUrl = "https://raw.githubusercontent.com/dwyl/english-words/refs/heads/master/words.txt"
+
+try {
+    New-Item -ItemType Directory -Path $dictDir -Force | Out-Null
+    Invoke-WebRequest -Uri $dictUrl -OutFile $dictFile -UseBasicParsing -ErrorAction Stop
+    Write-Host "Downloaded dictionary words to: $dictFile" -ForegroundColor Green
+} catch {
+    Write-Host "Warning: Failed to download dictionary words from $dictUrl" -ForegroundColor Yellow
+    Write-Host "Error details: $($_.Exception.Message)" -ForegroundColor Yellow
+}
+
 Write-Host "`n✓ Configuration installed to: $configDir" -ForegroundColor Green
 
 Write-Host "`nStarting Neovim to install plugins..." -ForegroundColor Green
