@@ -239,7 +239,7 @@ function M.setup()
           name = 'Dict',
           min_keyword_length = 3,
           opts = {
-            dictionary_files = { vim.fn.expand('~/.config/nvim/dictionary/words.txt') }
+            dictionary_files = { vim.fs.joinpath(vim.fn.stdpath('config'), 'dictionary', 'words.txt') }
           }
         }
       },
