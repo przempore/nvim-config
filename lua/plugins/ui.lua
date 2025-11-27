@@ -13,14 +13,6 @@ return {
   { "nvzone/menu", dependencies = { "nvzone/volt" } },
   { "nvzone/volt" },
 
-  -- Palette
-  {
-    "roobert/palette.nvim",
-    config = function()
-      vim.cmd("colorscheme palette")
-    end,
-  },
-
   -- Zen mode
   {
     "folke/zen-mode.nvim",
