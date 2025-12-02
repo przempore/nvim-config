@@ -161,88 +161,89 @@ vim.diagnostic.config({ float = { border = vim.o.winborder, source = "always" } 
 --   -- Add other mappings
 -- end
 
-local lspconfig = require('lspconfig')
+local function configure_server(name, config)
+  local base = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+  vim.lsp.config(name, vim.tbl_deep_extend("force", base, config or {}))
+  vim.lsp.enable(name)
+end
 
--- Configure servers using lspconfig
-lspconfig.lua_ls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = { Lua = { runtime = { version = 'LuaJIT' }, diagnostics = { globals = {'vim'} } } } -- Example settings
-}
+configure_server("lua_ls", {
+  settings = { Lua = { runtime = { version = "LuaJIT" }, diagnostics = { globals = { "vim" } } } },
+})
 
-lspconfig.clangd.setup {
-  on_attach = on_attach,
-  capabilities = clangd_capabilities, -- Pass specific capabilities
-  cmd = { -- You can still override cmd if needed, but often not necessary if in PATH
-    "clangd", "--background-index", "-j=14", "--pch-storage=memory", "--clang-tidy",
+configure_server("clangd", {
+  capabilities = clangd_capabilities,
+  cmd = {
+    "clangd",
+    "--background-index",
+    "-j=14",
+    "--pch-storage=memory",
+    "--clang-tidy",
   },
-  init_options = { clangdFileStatus = true, usePlaceholders = true, completeUnimported = true, semanticHighlighting = true },
-  -- root_dir = ... -- Only override if default detection fails
-}
+  init_options = {
+    clangdFileStatus = true,
+    usePlaceholders = true,
+    completeUnimported = true,
+    semanticHighlighting = true,
+  },
+})
 
--- lspconfig.pyright.setup {
---   on_attach = on_attach,
---   capabilities = capabilities,
--- }
-
-lspconfig.pylsp.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
+configure_server("pylsp", {
   settings = {
     pylsp = {
       plugins = {
         pycodestyle = {
-          ignore = {'W391'},
-          maxLineLength = 100
-        }
-      }
-    }
-  }
-}
-
-lspconfig.neocmake.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
-
-lspconfig.jsonls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
-
-lspconfig.marksman.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
-
-lspconfig.ruby_lsp.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
-
-lspconfig.qmlls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
-
-lspconfig.rust_analyzer.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = { -- Pass your specific rust-analyzer settings
-    ['rust-analyzer'] = { diagnostics = { enabled = true, disabled = {"unresolved-proc-macro"}, enableExperimental = true }, imports = { granularity = { group = "module" }, prefix = "self" }, cargo = { buildScripts = { enable = true } }, procMacro = { enable = true, ignored = { leptos_macro = { "server" } } } }
+          ignore = { "W391" },
+          maxLineLength = 100,
+        },
+      },
+    },
   },
-}
+})
 
-lspconfig.gopls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = { gopls = { analyses = { unusedparams = true }, staticcheck = true, usePlaceholders = true } }
-}
+configure_server("neocmake")
+configure_server("jsonls")
+configure_server("marksman")
+configure_server("ruby_lsp")
+configure_server("qmlls")
 
-lspconfig.nixd.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
+configure_server("rust_analyzer", {
+  settings = {
+    ["rust-analyzer"] = {
+      diagnostics = {
+        enabled = true,
+        disabled = { "unresolved-proc-macro" },
+        enableExperimental = true,
+      },
+      imports = {
+        granularity = { group = "module" },
+        prefix = "self",
+      },
+      cargo = {
+        buildScripts = { enable = true },
+      },
+      procMacro = {
+        enable = true,
+        ignored = { leptos_macro = { "server" } },
+      },
+    },
+  },
+})
+
+configure_server("gopls", {
+  settings = {
+    gopls = {
+      analyses = { unusedparams = true },
+      staticcheck = true,
+      usePlaceholders = true,
+    },
+  },
+})
+
+configure_server("nixd")
 
 vim.diagnostic.config({
   signs = { priority = 9999 },

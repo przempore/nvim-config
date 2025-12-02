@@ -18,7 +18,7 @@ require("lazy").setup("plugins", {
     lazy = false,
   },
   install = {
-    missing = true,
+    missing = false,
     colorscheme = { "catppuccin" },
   },
   checker = {
