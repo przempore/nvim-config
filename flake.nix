@@ -30,8 +30,9 @@
             src = fetchFromGitHub {
               owner = "dhananjaylatkar";
               repo = "cscope_maps.nvim";
-              rev = "66d044b1949aa4912261bbc61da845369d54f971";
-              sha256 = "sha256-pC5iWtuHz2Gr9EgEJXaux9VEM4IJhVmQ4bkGC0GEvuA=";
+              rev = "ad4559030192e784a9df7af2c07ed108ad6d109b";
+              # sha256 = pkgs-with-overlay.lib.fakeSha256;
+              sha256 = "sha256-7nJKA3Z1qQXJHfFQQ/ebQ3LRe71lyGaF3Z34APfXQ/k=";
             };
             dependencies = [ vimPlugins.telescope-nvim vimPlugins.fzf-lua ];
             nvimSkipModules = [ "cscope.pickers.telescope" "cscope.pickers.fzf-lua" ];
