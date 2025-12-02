@@ -106,7 +106,6 @@
             lspsaga-nvim
             luasnip
             markdown-preview-nvim
-            mason-lspconfig-nvim
             mason-nvim
             mason-tool-installer-nvim
             neodev-nvim
@@ -115,7 +114,6 @@
             nvim-dap-virtual-text
             nvim-fzf
             nvim-lint
-            nvim-lspconfig
             nvim-notify
             nvim-numbertoggle
             nvim-treesitter-context
