@@ -50,7 +50,31 @@ tnoremap("<Esc>", "<C-\\><C-n>")
 nnoremap("<F1>", ":tabp<cr>")
 nnoremap("<F2>", ":tabn<cr>")
 nnoremap("<F8>", function() vim.opt.wrap = not vim.wo.wrap; print("line wrap:", vim.wo.wrap) end)
-nnoremap("<F10>", ":ClangdSwitchSourceHeader<CR>")
+nnoremap("<F10>", function()
+  if vim.lsp.buf.switch_source_header then
+    vim.lsp.buf.switch_source_header()
+    return
+  end
+
+  local clients = vim.lsp.get_clients({ name = "clangd", bufnr = 0 })
+  if #clients == 0 then
+    vim.notify("clangd is not attached to this buffer", vim.log.levels.WARN)
+    return
+  end
+
+  local params = { uri = vim.uri_from_bufnr(0) }
+  clients[1].request("textDocument/switchSourceHeader", params, function(err, result)
+    if err then
+      vim.notify(err.message or "clangd switchSourceHeader failed", vim.log.levels.ERROR)
+      return
+    end
+    if not result then
+      vim.notify("clangd did not return a target", vim.log.levels.WARN)
+      return
+    end
+    vim.cmd.edit(vim.uri_to_fname(result))
+  end, 0)
+end)
 
 -- resizing
 nnoremap("<A-j>", ":resize -5 <cr>")

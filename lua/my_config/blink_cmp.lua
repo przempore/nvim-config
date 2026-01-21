@@ -171,7 +171,10 @@ function M.setup()
                    icon = "" -- Copilot icon (ensure Nerd Font)
                 elseif lspkind_ok then
                    -- Use lspkind for LSP and other sources if available
-                   icon = lspkind.symbolic(ctx.kind, { mode = "symbol" })
+                   local lspkind_symbol = lspkind.symbolic or lspkind.symbol
+                   if lspkind_symbol then
+                     icon = lspkind_symbol(ctx.kind, { mode = "symbol" })
+                   end
                 end
                 -- Ensure there's always a fallback icon string if others fail
                 icon = (type(icon) == 'string' and #icon > 0) and icon or '?'
