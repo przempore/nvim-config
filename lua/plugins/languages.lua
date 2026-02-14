@@ -47,9 +47,9 @@ return {
           follow_url_func = function(url)
             vim.ui.open(url)
           end,
-          templates = {
-            folder = "~/Projects/second-brain/extras/templates/daily_note_template",
-          },
+          -- templates = {
+          --   folder = "~/Projects/second-brain/extras/templates/daily_note_template",
+          -- },
           daily_notes = {
             folder = string.format("Timestamps/%s", daily_notes_path),
             date_format = string.format("%s", daily_notes_day),
