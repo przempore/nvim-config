@@ -86,8 +86,8 @@
             avante-nvim
             blink-cmp
             blink-cmp-avante
-            blink-cmp-dictionary
             blink-cmp-copilot
+            blink-cmp-dictionary
             colorful-menu-nvim
             comment-nvim
             copilot-lua
