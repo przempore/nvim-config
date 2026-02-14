@@ -125,6 +125,7 @@
             nvim-web-devicons
             obsidian-nvim
             oil-nvim
+            opencode-nvim
             palette-nvim
             playground
             plenary-nvim
