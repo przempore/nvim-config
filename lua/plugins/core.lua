@@ -85,6 +85,14 @@ return {
     end,
   },
   {
+    "cajames/copy-reference.nvim",
+    opts = {},
+    keys = {
+      { "yr", "<cmd>CopyReference file<cr>", mode = { "n", "v" }, desc = "Copy file path" },
+      { "yrr", "<cmd>CopyReference line<cr>", mode = { "n", "v" }, desc = "Copy file:line" },
+    },
+  },
+  {
     "epwalsh/pomo.nvim",
     version = "*",
     lazy = true,
