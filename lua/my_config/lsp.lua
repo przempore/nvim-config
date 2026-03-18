@@ -1,3 +1,5 @@
+local DEFAULT_POSITION_ENCODING = "utf-16"
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
@@ -5,6 +7,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 }
 capabilities.window = capabilities.window or {}
 capabilities.window.workDoneProgress = false
+capabilities.offsetEncoding = { DEFAULT_POSITION_ENCODING }
 
 -- Some servers send `containerName = vim.NIL` which crashes
 -- vim.lsp.util.symbols_to_items when Telescope renders workspace symbols.
@@ -26,6 +29,7 @@ do
     end
 
     util.symbols_to_items = function(symbols, bufnr, position_encoding)
+      position_encoding = position_encoding or DEFAULT_POSITION_ENCODING
       if type(symbols) == "table" then
         for _, symbol in ipairs(symbols) do
           sanitize(symbol)
@@ -191,18 +195,19 @@ configure_server("clangd", {
   },
 })
 
-configure_server("pylsp", {
-  settings = {
-    pylsp = {
-      plugins = {
-        pycodestyle = {
-          ignore = { "W391" },
-          maxLineLength = 100,
-        },
-      },
-    },
-  },
-})
+configure_server("pylsp")
+-- configure_server("pylsp", {
+--   settings = {
+--     pylsp = {
+--       plugins = {
+--         pycodestyle = {
+--           ignore = { "W391" },
+--           maxLineLength = 100,
+--         },
+--       },
+--     },
+--   },
+-- })
 
 configure_server("neocmake")
 configure_server("jsonls")

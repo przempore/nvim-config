@@ -44,7 +44,12 @@ return {
   },
 
   -- FZF
-  { "junegunn/fzf", build = "./install --bin" },
+  {
+    "junegunn/fzf",
+    build = function()
+      vim.fn["fzf#install"]()
+    end,
+  },
   { "junegunn/fzf.vim" },
   { "vijaymarupudi/nvim-fzf" },
 

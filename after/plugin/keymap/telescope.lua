@@ -145,3 +145,5 @@ nnoremap("<leader>gwt", ":Telescope git_worktree git_worktrees<cr>",
     { noremap = true, silent = true, desc = "[telescope] git worktrees"})
 nnoremap("<leader>gwc", ":Telescope git_worktree create_git_worktree<cr>",
     { noremap = true, silent = true, desc = "[telescope] create git worktree"})
+nnoremap("<leader>gc", function() telescope.git_branches(); end,
+    { noremap = true, silent = true, desc = "[telescope] git branches"})

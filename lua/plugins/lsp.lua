@@ -90,7 +90,9 @@ return {
     event = "VeryLazy",
     lazy = false,
     version = false,
-    build = "make",
+    build = vim.fn.has("win32") ~= 0
+        and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
+        or "make",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "stevearc/dressing.nvim",
