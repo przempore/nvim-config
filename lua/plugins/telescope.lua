@@ -1,4 +1,14 @@
 -- Telescope and navigation plugins
+local has_make = vim.fn.executable("make") == 1
+local has_cmake = vim.fn.executable("cmake") == 1
+
+local fzf_native_build = nil
+if has_make then
+  fzf_native_build = "make"
+elseif has_cmake then
+  fzf_native_build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release"
+end
+
 return {
   {
     "nvim-telescope/telescope.nvim",
@@ -7,7 +17,8 @@ return {
       "nvim-lua/plenary.nvim",
       {
         "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
+        build = fzf_native_build,
+        cond = has_make or has_cmake,
       },
     },
     config = function()
