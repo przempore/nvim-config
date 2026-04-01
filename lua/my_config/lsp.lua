@@ -195,7 +195,23 @@ configure_server("clangd", {
   },
 })
 
-configure_server("pylsp")
+local function resolve_pylsp_cmd()
+  local python = vim.fn.exepath("python")
+  if python ~= nil and python ~= "" then
+    return { python, "-m", "pylsp" }
+  end
+
+  local pylsp = vim.fn.exepath("pylsp")
+  if pylsp ~= nil and pylsp ~= "" then
+    return { pylsp }
+  end
+
+  return { "pylsp" }
+end
+
+configure_server("pylsp", {
+  cmd = resolve_pylsp_cmd(),
+})
 -- configure_server("pylsp", {
 --   settings = {
 --     pylsp = {
