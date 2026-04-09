@@ -82,9 +82,6 @@ nnoremap("<A-k>", ":resize +5 <cr>")
 nnoremap("<A-h>", ":vertical:resize -5 <cr>")
 nnoremap("<A-l>", ":vertical:resize +5 <cr>")
 
-nnoremap("<leader>nt", ":NERDTreeToggle<CR>")
-nnoremap("<leader>0", ":NERDTreeFind<CR>")
-
 nnoremap("<leader>z", "<cmd>:lua require(\"zen-mode\").toggle({ window = { width = .85 } })<cr>",
     { noremap = true, silent = true, desc = "[Zen mode] Togle"})
 
