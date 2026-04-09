@@ -1,19 +1,8 @@
-require'nvim-treesitter.configs'.setup {
-    sync_install = false,
-
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    },
-    indent = {
-        enable = true,
-    },
-    autotag = {
-        enable = true,
-    },
-    rainbow = {
-        enable = true,
-        extended_mode = true,
-        max_file_lines = 1000,
-    },
-}
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function(args)
+    if vim.bo[args.buf].buftype ~= "" then
+      return
+    end
+    pcall(vim.treesitter.start, args.buf)
+  end,
+})

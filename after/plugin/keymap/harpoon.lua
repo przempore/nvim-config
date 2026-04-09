@@ -1,17 +1,14 @@
-local harpoon = require("harpoon")
+local harpoon_ok, harpoon = pcall(require, "harpoon")
+if not harpoon_ok then
+  return
+end
 
--- REQUIRED
-harpoon:setup({
-    settings = {
-        save_on_toggle = true,
-        sync_on_ui_close = true,
-        border_chars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-        key = function()
-            return vim.loop.cwd()
-        end,
-    },
+harpoon.setup({
+  global_settings = {
+    save_on_toggle = true,
+    save_on_change = true,
+  },
 })
--- REQUIRED
 
 -- OPTIONAL: telescope support
 -- local conf = require("telescope.config").values
@@ -33,10 +30,22 @@ harpoon:setup({
 -- vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
 --     { desc = "Open harpoon window" })
 
-vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
-vim.keymap.set("n", "<leader>e", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+vim.keymap.set("n", "<leader>a", function()
+  require("harpoon.mark").add_file()
+end)
+vim.keymap.set("n", "<leader>e", function()
+  require("harpoon.ui").toggle_quick_menu()
+end)
 
-vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
-vim.keymap.set("n", "<C-t>", function() harpoon:list():select(2) end)
-vim.keymap.set("n", "<C-n>", function() harpoon:list():select(3) end)
-vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end)
+vim.keymap.set("n", "<C-h>", function()
+  require("harpoon.ui").nav_file(1)
+end)
+vim.keymap.set("n", "<C-t>", function()
+  require("harpoon.ui").nav_file(2)
+end)
+vim.keymap.set("n", "<C-n>", function()
+  require("harpoon.ui").nav_file(3)
+end)
+vim.keymap.set("n", "<C-s>", function()
+  require("harpoon.ui").nav_file(4)
+end)

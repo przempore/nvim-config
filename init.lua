@@ -1,3 +1,5 @@
+vim.loader.enable()
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -9,6 +11,6 @@ end
 if plugins_are_nix_managed() then
   require("my_config")
 else
-  require("lazy-bootstrap")
+  require("pack-bootstrap")
   require("my_config")
 end

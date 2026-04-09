@@ -137,8 +137,18 @@ end
 
 -- Keep the handler/diagnostic configuration for borders, it's fine
 local border_opts = { border = vim.o.winborder }
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, border_opts) -- Harmless fallback
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, border_opts)
+local hover_handler = vim.lsp.handlers.hover
+local signature_handler = vim.lsp.handlers.signature_help
+
+vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+  config = vim.tbl_deep_extend("force", border_opts, config or {})
+  return hover_handler(err, result, ctx, config)
+end
+
+vim.lsp.handlers["textDocument/signatureHelp"] = function(err, result, ctx, config)
+  config = vim.tbl_deep_extend("force", border_opts, config or {})
+  return signature_handler(err, result, ctx, config)
+end
 vim.diagnostic.config({ float = { border = vim.o.winborder, source = "always" } })
 
 -- local function on_attach(client, bufnr)
