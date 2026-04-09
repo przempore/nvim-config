@@ -78,20 +78,20 @@ try {
 
 Write-Host "`n✓ Configuration installed to: $configDir" -ForegroundColor Green
 
-Write-Host "`nStarting Neovim to install plugins..." -ForegroundColor Green
-Write-Host "  Lazy.nvim will automatically install all plugins" -ForegroundColor Gray
+Write-Host "`nStarting Neovim to initialize config..." -ForegroundColor Green
+Write-Host "  vim.pack will install plugins on first interactive start" -ForegroundColor Gray
 Write-Host "  This may take a few minutes..." -ForegroundColor Gray
 Write-Host ""
 
 Start-Sleep -Seconds 2
 
-& nvim --headless "+Lazy! sync" +qa
+& nvim --headless "+qa"
 
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "`n✓ Plugins installed successfully!" -ForegroundColor Green
+    Write-Host "`n✓ Configuration validated successfully!" -ForegroundColor Green
 } else {
-    Write-Host "`nWarning: Plugin installation may have encountered issues" -ForegroundColor Yellow
-    Write-Host "Run 'nvim' and execute ':Lazy sync' to retry" -ForegroundColor Yellow
+    Write-Host "`nWarning: Headless validation reported an issue" -ForegroundColor Yellow
+    Write-Host "Run 'nvim' and check ':messages' for details" -ForegroundColor Yellow
 }
 
 Write-Host "`nInstallation complete!" -ForegroundColor Green

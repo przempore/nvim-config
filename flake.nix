@@ -127,7 +127,6 @@
             oil-nvim
             opencode-nvim
             palette-nvim
-            playground
             plenary-nvim
             pomo-nvim
             rust-vim

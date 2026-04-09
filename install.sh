@@ -63,20 +63,20 @@ fi
 
 echo -e "\n${GREEN}✓${NC} Configuration installed to: $CONFIG_DIR"
 
-echo -e "\n${GREEN}Starting Neovim to install plugins...${NC}"
-echo "  Lazy.nvim will automatically install all plugins"
+echo -e "\n${GREEN}Starting Neovim to initialize config...${NC}"
+echo "  vim.pack will install plugins on first interactive start"
 echo "  This may take a few minutes on first run..."
 echo ""
 sleep 2
 
-# Launch nvim to trigger lazy.nvim bootstrap
-nvim --headless "+Lazy! sync" +qa
+# Validate config in headless mode
+nvim --headless "+qa"
 
 if [ $? -eq 0 ]; then
-    echo -e "\n${GREEN}✓${NC} Plugins installed successfully!"
+    echo -e "\n${GREEN}✓${NC} Configuration validated successfully!"
 else
-    echo -e "\n${YELLOW}Warning: Plugin installation may have encountered issues${NC}"
-    echo "Run 'nvim' and execute ':Lazy sync' to retry"
+    echo -e "\n${YELLOW}Warning: Headless validation reported an issue${NC}"
+    echo "Run 'nvim' and check ':messages' for details"
 fi
 
 echo -e "\n${GREEN}Installation complete!${NC}"
