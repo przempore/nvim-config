@@ -82,6 +82,7 @@ vim.pack.add({
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",
   "https://github.com/yetone/avante.nvim",
   "https://github.com/mfussenegger/nvim-lint",
+  "https://github.com/nvim-treesitter/nvim-treesitter",
   "https://github.com/nvim-treesitter/nvim-treesitter-context",
   "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
   { src = "https://github.com/nvim-telescope/telescope.nvim", version = "0.1.x" },
