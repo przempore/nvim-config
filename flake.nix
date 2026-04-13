@@ -107,9 +107,6 @@
             lspsaga-nvim
             luasnip
             markdown-preview-nvim
-            mason-lspconfig-nvim
-            mason-nvim
-            mason-tool-installer-nvim
             neodev-nvim
             nvim-dap
             nvim-dap-ui

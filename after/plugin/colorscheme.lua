@@ -37,7 +37,6 @@ require("catppuccin").setup({
         telescope = true,
         notify = true,
         mini = false,
-        mason = true,
         markdown = true,
         harpoon = true,
         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
