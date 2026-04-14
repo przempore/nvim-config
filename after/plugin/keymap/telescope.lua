@@ -75,7 +75,7 @@ require('telescope').setup {
                     },
                     n = {
                         ["<C-w>"] = require("telescope.actions").delete_buffer,
-                    }
+                    },
                 }
             },
             find_files = {

@@ -85,7 +85,7 @@ vim.pack.add({
   "https://github.com/nvim-treesitter/nvim-treesitter",
   "https://github.com/nvim-treesitter/nvim-treesitter-context",
   "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
-  { src = "https://github.com/nvim-telescope/telescope.nvim", version = "0.1.x" },
+  { src = "https://github.com/nvim-telescope/telescope.nvim", version = "master" },
   "https://github.com/ThePrimeagen/harpoon",
   "https://github.com/awerebea/git-worktree.nvim",
   "https://github.com/vijaymarupudi/nvim-fzf",
