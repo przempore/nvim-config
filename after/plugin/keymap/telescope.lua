@@ -147,3 +147,5 @@ nnoremap("<leader>gwc", ":Telescope git_worktree create_git_worktree<cr>",
     { noremap = true, silent = true, desc = "[telescope] create git worktree"})
 nnoremap("<leader>gc", function() telescope.git_branches(); end,
     { noremap = true, silent = true, desc = "[telescope] git branches"})
+nnoremap("<leader>qf", function() telescope.quickfix(); end,
+    { noremap = true, silent = true, desc = "[telescope] quickfix"})
