@@ -67,7 +67,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 local function on_attach(client, bufnr)
-  print("LSP client " .. client.name .. " attached via lspconfig to buffer " .. bufnr)
+  -- print("LSP client " .. client.name .. " attached via lspconfig to buffer " .. bufnr)
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
 
   -- Use lspsaga for hover if available, otherwise default LSP hover
