@@ -10,3 +10,5 @@ nnoremap("<leader>gp", "V:diffput<CR>",
     { noremap = true, silent = true, desc = "[Git] Put changes into diff" })
 nnoremap("<leader>gg", "V:diffget<CR>",
     { noremap = true, silent = true, desc = "[Git] Get changes from diff" })
+nnoremap("<leader>gbl", ":Gitsigns blame_line<CR>",
+    { noremap = true, silent = true, desc = "[Gitsigns] Git blame line" })
