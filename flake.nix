@@ -84,7 +84,6 @@
           ] ++ (with vimPlugins; [
             blink-cmp
             blink-cmp-copilot
-            blink-cmp-dictionary
             colorful-menu-nvim
             comment-nvim
             codecompanion-nvim

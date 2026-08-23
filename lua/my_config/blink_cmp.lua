@@ -219,7 +219,7 @@ function M.setup()
     signature = { enabled = true },
     sources = {
       -- Define the order and enabled sources
-      default = { "copilot", "lsp", "snippets", "buffer", "path", "dictionary", "codecompanion" },
+      default = { "copilot", "lsp", "snippets", "buffer", "path", "codecompanion" },
       providers = {
         buffer = { max_items = 5 },
         lsp = { score_offset = 5 }, -- Prioritize LSP slightly
@@ -229,14 +229,6 @@ function M.setup()
         -- luasnip = { score_offset = 2 },
         copilot = {
           module = "blink-cmp-copilot",
-        },
-        dictionary = {
-          module = 'blink-cmp-dictionary',
-          name = 'Dict',
-          min_keyword_length = 3,
-          opts = {
-            dictionary_files = { vim.fs.joinpath(vim.fn.stdpath('config'), 'dictionary', 'words.txt') }
-          }
         },
         codecompanion = {
           name = "CodeCompanion",

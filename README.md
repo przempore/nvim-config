@@ -52,7 +52,7 @@ On first interactive launch (`nvim`), `vim.pack` installs missing plugins.
 
 ## CodeCompanion
 
-Chat uses CodeCompanion's Codex ACP adapter with ChatGPT authentication. The Nix package includes `codex-acp`; on non-Nix systems install it with `npm install -g @agentclientprotocol/codex-acp`. On the first chat request, complete the ChatGPT login flow when prompted. ChatGPT subscription access is available for CodeCompanion chat and agent actions, but it is not exposed as normal `blink.cmp` ghost-text completion. Completion uses LSP, snippets, buffer, path, and dictionary sources.
+Chat uses CodeCompanion's Codex ACP adapter with ChatGPT authentication. The Nix package includes `codex-acp`; on non-Nix systems install it with `npm install -g @agentclientprotocol/codex-acp`. On the first chat request, complete the ChatGPT login flow when prompted. ChatGPT subscription access is available for CodeCompanion chat and agent actions, but it is not exposed as normal `blink.cmp` ghost-text completion. Completion uses LSP, snippets, buffer, and path sources.
 
 ## Notes
 

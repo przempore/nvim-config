@@ -73,7 +73,6 @@ vim.pack.add({
   "https://github.com/rafamadriz/friendly-snippets",
   "https://github.com/L3MON4D3/LuaSnip",
   "https://github.com/onsails/lspkind.nvim",
-  "https://github.com/Kaiser-Yang/blink-cmp-dictionary",
   "https://github.com/zbirenbaum/copilot.lua",
   { src = "https://github.com/olimorris/codecompanion.nvim", version = vim.version.range("^19.0.0") },
   "https://github.com/MunifTanjim/nui.nvim",
