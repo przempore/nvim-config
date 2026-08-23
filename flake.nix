@@ -83,9 +83,7 @@
             wf-nvim
           ] ++ (with vimPlugins; [
             CopilotChat-nvim
-            avante-nvim
             blink-cmp
-            blink-cmp-avante
             blink-cmp-copilot
             blink-cmp-dictionary
             colorful-menu-nvim

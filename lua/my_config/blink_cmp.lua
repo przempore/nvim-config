@@ -222,7 +222,7 @@ function M.setup()
     signature = { enabled = true },
     sources = {
       -- Define the order and enabled sources
-      default = { "avante", "copilot", "lsp", "snippets", "buffer", "path", "dictionary"  },
+      default = { "copilot", "lsp", "snippets", "buffer", "path", "dictionary"  },
       providers = {
         buffer = { max_items = 5 },
         lsp = { score_offset = 5 }, -- Prioritize LSP slightly
@@ -230,13 +230,6 @@ function M.setup()
         snippets = { score_offset = 2 }, -- Ensure snippets source name matches (often 'luasnip')
         -- Example for luasnip if source name is different
         -- luasnip = { score_offset = 2 },
-        avante = {
-          module = 'blink-cmp-avante',
-          name = 'Avante',
-          opts = {
-            -- options for blink-cmp-avante
-          }
-        },
         copilot = {
           module = "blink-cmp-copilot",
         },
