@@ -244,6 +244,10 @@ configure_server("qmlls")
 configure_server("rust_analyzer", {
   settings = {
     ["rust-analyzer"] = {
+      checkOnSave = {
+        enable = true,
+        command = "check",
+      },
       diagnostics = {
         enabled = true,
         disabled = { "unresolved-proc-macro" },
