@@ -75,7 +75,7 @@ vim.pack.add({
   "https://github.com/onsails/lspkind.nvim",
   "https://github.com/Kaiser-Yang/blink-cmp-dictionary",
   "https://github.com/zbirenbaum/copilot.lua",
-  { src = "https://github.com/CopilotC-Nvim/CopilotChat.nvim", version = "main" },
+  { src = "https://github.com/olimorris/codecompanion.nvim", version = vim.version.range("^19.0.0") },
   "https://github.com/MunifTanjim/nui.nvim",
   "https://github.com/HakonHarnes/img-clip.nvim",
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",

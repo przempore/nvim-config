@@ -4,28 +4,25 @@ if not status_ok then
   return
 end
 
--- Autocommands for Copilot integration (run these when setting up)
 vim.api.nvim_create_autocmd("User", {
-    pattern = "BlinkCmpMenuOpen",
-    desc = "Hide Copilot suggestions when blink.cmp menu opens",
-    callback = function()
-        -- Check if the copilot function exists before calling
-        local copilot_suggestion = package.loaded["copilot.suggestion"]
-        if copilot_suggestion and copilot_suggestion.dismiss then
-             copilot_suggestion.dismiss()
-        end
-        vim.b.copilot_suggestion_hidden = true
-    end,
+  pattern = "BlinkCmpMenuOpen",
+  desc = "Hide Copilot suggestions when blink.cmp menu opens",
+  callback = function()
+    local copilot_suggestion = package.loaded["copilot.suggestion"]
+    if copilot_suggestion and copilot_suggestion.dismiss then
+      copilot_suggestion.dismiss()
+    end
+    vim.b.copilot_suggestion_hidden = true
+  end,
 })
 
 vim.api.nvim_create_autocmd("User", {
-    pattern = "BlinkCmpMenuClose",
-    desc = "Show Copilot suggestions when blink.cmp menu closes",
-    callback = function()
-        vim.b.copilot_suggestion_hidden = false
-    end,
+  pattern = "BlinkCmpMenuClose",
+  desc = "Show Copilot suggestions when blink.cmp menu closes",
+  callback = function()
+    vim.b.copilot_suggestion_hidden = false
+  end,
 })
-
 
 local function setup_tab_keymaps()
   local luasnip_ok, luasnip = pcall(require, "luasnip")
@@ -136,7 +133,7 @@ function M.setup()
           border = "rounded", -- Use your preferred border
         },
       },
-      ghost_text = { enabled = true }, -- Enable/disable ghost text (like Copilot)
+      ghost_text = { enabled = true },
       menu = {
         border = "rounded", -- Use your preferred border
         draw = {
@@ -171,7 +168,7 @@ function M.setup()
                   local dev_icon, _ = devicons.get_icon(ctx.label)
                   if dev_icon then icon = dev_icon end
                 elseif ctx.source_name == "Copilot" then
-                   icon = "" -- Copilot icon (ensure Nerd Font)
+                  icon = ""
                 elseif lspkind_ok then
                    -- Use lspkind for LSP and other sources if available
                    local lspkind_symbol = lspkind.symbolic or lspkind.symbol
@@ -222,7 +219,7 @@ function M.setup()
     signature = { enabled = true },
     sources = {
       -- Define the order and enabled sources
-      default = { "copilot", "lsp", "snippets", "buffer", "path", "dictionary"  },
+      default = { "copilot", "lsp", "snippets", "buffer", "path", "dictionary", "codecompanion" },
       providers = {
         buffer = { max_items = 5 },
         lsp = { score_offset = 5 }, -- Prioritize LSP slightly
@@ -240,7 +237,12 @@ function M.setup()
           opts = {
             dictionary_files = { vim.fs.joinpath(vim.fn.stdpath('config'), 'dictionary', 'words.txt') }
           }
-        }
+        },
+        codecompanion = {
+          name = "CodeCompanion",
+          module = "codecompanion.providers.completion.blink",
+          score_offset = 10,
+        },
       },
     },
   })

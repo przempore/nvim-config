@@ -82,12 +82,12 @@
             telescope-git-worktrees
             wf-nvim
           ] ++ (with vimPlugins; [
-            CopilotChat-nvim
             blink-cmp
             blink-cmp-copilot
             blink-cmp-dictionary
             colorful-menu-nvim
             comment-nvim
+            codecompanion-nvim
             copilot-lua
             debugprint-nvim
             dressing-nvim
@@ -142,6 +142,7 @@
         {
           packages = {
             default = wrapNeovim neovim-pkg {
+              extraMakeWrapperArgs = "--prefix PATH : ${pkgs-with-overlay.codex-acp}/bin";
               configure = {
                 customRC = ''
                   lua dofile("${configFiles}/init.lua")

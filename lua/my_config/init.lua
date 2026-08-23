@@ -51,14 +51,35 @@ require("wf").setup({
 
 require("lspsaga").setup({})
 
-require('copilot').setup({
+require("copilot").setup({
   suggestion = { enabled = false },
   panel = { enabled = false },
 })
-require("CopilotChat").setup {
-  -- See Configuration section for options
-}
+require("codecompanion").setup({
+  adapters = {
+    acp = {
+      codex = function()
+        return require("codecompanion.adapters").extend("codex", {
+          defaults = {
+            auth_method = "chat-gpt",
+          },
+        })
+      end,
+    },
+  },
+  interactions = {
+    chat = { adapter = "codex" },
+  },
+})
 
+vim.keymap.set({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", {
+  silent = true,
+  desc = "CodeCompanion chat",
+})
+vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>CodeCompanionActions<cr>", {
+  silent = true,
+  desc = "CodeCompanion actions",
+})
 local obsidian_path = vim.fn.expand("~/Projects/second-brain")
 if vim.fn.isdirectory(obsidian_path) == 1 then
   local daily_notes_path = require("my_config.date_formatter_for_obsidian").get_formatted_path()
