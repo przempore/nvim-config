@@ -69,6 +69,9 @@ require("codecompanion").setup({
   },
   interactions = {
     chat = { adapter = "codex" },
+    inline = { adapter = "copilot" },
+    cmd = { adapter = "copilot" },
+    background = { adapter = "copilot" },
   },
 })
 
