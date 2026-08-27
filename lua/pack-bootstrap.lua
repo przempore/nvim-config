@@ -33,7 +33,7 @@ on_pack_changed(function(ev)
   vim.fn["mkdp#util#install"]()
 end)
 
-vim.pack.add({
+local plugins = {
   "https://github.com/nvim-lua/plenary.nvim",
   "https://github.com/nvim-tree/nvim-web-devicons",
   "https://github.com/rcarriga/nvim-notify",
@@ -99,4 +99,40 @@ vim.pack.add({
   "https://github.com/rcarriga/nvim-dap-ui",
   "https://github.com/theHamsta/nvim-dap-virtual-text",
   "https://github.com/nvim-neotest/nvim-nio",
-})
+}
+
+local function plugin_name(spec)
+  if type(spec) == "table" and spec.name then
+    return spec.name
+  end
+
+  local src = type(spec) == "table" and spec.src or spec
+  return src:match("([^/]+)%.git$") or src:match("([^/]+)$")
+end
+
+local function plugin_path(name)
+  return vim.fn.stdpath("data") .. "/site/pack/core/opt/" .. name
+end
+
+local function start_plugin_path(name)
+  return vim.fn.stdpath("data") .. "/site/pack/core/start/" .. name
+end
+
+local missing = {}
+for _, spec in ipairs(plugins) do
+  local name = plugin_name(spec)
+  if not name then
+    table.insert(missing, spec)
+  elseif vim.fn.isdirectory(start_plugin_path(name)) == 1 then
+    -- Start packages are loaded by Neovim's package loader before this file runs.
+  elseif vim.fn.isdirectory(plugin_path(name)) == 1 then
+    vim.fn.mkdir(vim.fn.stdpath("data") .. "/site/pack/core/start", "p")
+    vim.fn.rename(plugin_path(name), start_plugin_path(name))
+  else
+    table.insert(missing, spec)
+  end
+end
+
+if #missing > 0 then
+  vim.pack.add(missing)
+end
