@@ -2,6 +2,7 @@ vim.loader.enable()
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+vim.opt.autoread = true
 
 local function plugins_are_nix_managed()
   local ok = pcall(require, "plenary.filetype")
