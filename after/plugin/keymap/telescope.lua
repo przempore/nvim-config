@@ -2,6 +2,7 @@ local nnoremap = require "my_config.keymap".nnoremap
 
 require('telescope').setup {
     defaults = {
+        find_command = { "rg", "--files", "--color", "never" },
         layout_config = {
             vertical = { width = 0.8 },
         },
@@ -12,6 +13,8 @@ require('telescope').setup {
             "docs/",
             "vendor/*",
             "%.lock",
+            "%.vi$",
+            "%.ctl$",
             "__pycache__/*",
             "cscope*",
             "vcpkg/*",
@@ -108,8 +111,12 @@ require('telescope').setup {
                 case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
                 -- the default case_mode is "smart_case"
             }
-        }
     }
+}
+
+pcall(function()
+    require('telescope').load_extension('fzf')
+end)
 
 local telescope = require "telescope.builtin";
 
@@ -120,16 +127,18 @@ nnoremap("<C-_>", function() telescope.current_buffer_fuzzy_find(); end,
     { noremap = true, silent = true, desc = "[telescope] current buffer fuzzy find"})
 nnoremap("<C-/>", function() telescope.current_buffer_fuzzy_find(); end,
     { noremap = true, silent = true, desc = "[telescope] current buffer fuzzy find"})
-nnoremap("<leader>ff", function() telescope.find_files({ hidden=true }); end,
+nnoremap("<leader>fc", function() telescope.current_buffer_fuzzy_find(); end,
+    { noremap = true, silent = true, desc = "[telescope] current buffer fuzzy find"})
+nnoremap("<leader>ff", function() telescope.find_files(); end,
     { noremap = true, silent = true, desc = "[telescope] find files"})
-nnoremap("<leader>gs", function() telescope.grep_string({ hidden=true }); end,
+nnoremap("<leader>gs", function() telescope.grep_string(); end,
     { noremap = true, silent = true, desc = "[telescope] grep given string"})
 nnoremap("<leader>gr", function() telescope.lsp_references(); end,
     { noremap = true, silent = true, desc = "[telescope] grep lsp references"})
 
-nnoremap("<leader>fs", function() telescope.live_grep({ hidden=true }); end,
+nnoremap("<leader>fs", function() telescope.live_grep(); end,
     { noremap = true, silent = true, desc = "[telescope] grep string"})
-nnoremap("<leader>gf", function() telescope.git_files({ hidden=true }); end,
+nnoremap("<leader>gf", function() telescope.git_files(); end,
     { noremap = true, silent = true, desc = "[telescope] git files"})
 nnoremap("<leader>fb", function() telescope.buffers(); end,
     { noremap = true, silent = true, desc = "[telescope] buffers"})
