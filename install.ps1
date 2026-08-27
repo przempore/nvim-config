@@ -65,18 +65,26 @@ if ($Source) {
 Write-Host "`n✓ Configuration installed to: $configDir" -ForegroundColor Green
 
 Write-Host "`nStarting Neovim to initialize config..." -ForegroundColor Green
-Write-Host "  vim.pack will install plugins on first interactive start" -ForegroundColor Gray
-Write-Host "  This may take a few minutes..." -ForegroundColor Gray
+Write-Host "  vim.pack will install missing plugins on first start" -ForegroundColor Gray
+Write-Host "  Existing plugins may be migrated to native start packages" -ForegroundColor Gray
 Write-Host ""
 
 Start-Sleep -Seconds 2
 
+& nvim --headless "+qa"
+$firstExitCode = $LASTEXITCODE
+
+# A first run can migrate plugins from opt to start packages. Start packages are
+# loaded before init.lua, so validate once more after that migration completes.
 & nvim --headless "+qa"
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host "`n✓ Configuration validated successfully!" -ForegroundColor Green
 } else {
     Write-Host "`nWarning: Headless validation reported an issue" -ForegroundColor Yellow
+    if ($firstExitCode -ne 0) {
+        Write-Host "The first validation pass also reported an issue" -ForegroundColor Yellow
+    }
     Write-Host "Run 'nvim' and check ':messages' for details" -ForegroundColor Yellow
 }
 
