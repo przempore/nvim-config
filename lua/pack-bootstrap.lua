@@ -134,5 +134,5 @@ for _, spec in ipairs(plugins) do
 end
 
 if #missing > 0 then
-  vim.pack.add(missing)
+  vim.pack.add(missing, { load = true })
 end

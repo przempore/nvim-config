@@ -143,9 +143,10 @@
             default = wrapNeovim neovim-pkg {
               extraMakeWrapperArgs = "--prefix PATH : ${pkgs-with-overlay.codex-acp}/bin";
               configure = {
-                customRC = ''
-                  lua dofile("${configFiles}/init.lua")
-                '';
+                 customRC = ''
+                   let g:nvim_config_nix_managed = v:true
+                   lua dofile("${configFiles}/init.lua")
+                 '';
                 packages.all = {
                   start = pluginsList;
                 };
