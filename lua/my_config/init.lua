@@ -55,6 +55,12 @@ require("copilot").setup({
   suggestion = { enabled = false },
   panel = { enabled = false },
 })
+
+local chat_adapter = "codex"
+if vim.fn.has("win32") == 1 then
+  chat_adapter = "claude_code"
+end
+
 require("codecompanion").setup({
   adapters = {
     acp = {
@@ -65,10 +71,13 @@ require("codecompanion").setup({
           },
         })
       end,
+      claude_code = function()
+        return require("codecompanion.adapters").extend("claude_code", {})
+      end,
     },
   },
   interactions = {
-    chat = { adapter = "codex" },
+    chat = { adapter = chat_adapter },
     inline = { adapter = "copilot" },
     cmd = { adapter = "copilot" },
     background = { adapter = "copilot" },
