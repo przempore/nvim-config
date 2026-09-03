@@ -47,14 +47,18 @@ if ($Source) {
             exit 1
         }
     } else {
-        Copy-Item -Path $Source -Destination $configDir -Recurse
+        $sourceDir = (Resolve-Path -LiteralPath $Source -ErrorAction SilentlyContinue).Path
+        if (-not $sourceDir -or -not (Test-Path -LiteralPath $sourceDir -PathType Container)) {
+            Write-Host "Error: Local source directory not found: $Source" -ForegroundColor Red
+            exit 1
+        }
+        New-Item -ItemType Junction -Path $configDir -Target $sourceDir | Out-Null
     }
 } else {
     $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
     if (Test-Path "$scriptDir\init.lua") {
         Write-Host "`nInstalling from current directory" -ForegroundColor Green
-        New-Item -ItemType Directory -Force -Path $configDir | Out-Null
-        Copy-Item -Path "$scriptDir\*" -Destination $configDir -Recurse -Force
+        New-Item -ItemType Junction -Path $configDir -Target $scriptDir | Out-Null
     } else {
         Write-Host "Error: Please provide repository URL or run from config directory" -ForegroundColor Red
         Write-Host "Usage: .\install.ps1 [repository-url or path]"
