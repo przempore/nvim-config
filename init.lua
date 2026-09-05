@@ -24,7 +24,10 @@ if vim.fn.has("win32") == 1 then
   })
 end
 
-if vim.g.nvim_config_nix_managed then
+local nix_managed = vim.g.nvim_config_nix_managed
+  or vim.fn.filereadable(vim.fn.stdpath("config") .. "/.nix-managed") == 1
+
+if nix_managed then
   require("my_config")
 else
   require("pack-bootstrap")

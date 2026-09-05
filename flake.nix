@@ -74,6 +74,7 @@
             installPhase = ''
               mkdir -p $out
               cp -r after init.lua lua $out/
+              touch $out/.nix-managed
             '';
           };
 
