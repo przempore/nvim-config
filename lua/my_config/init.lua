@@ -67,7 +67,7 @@ require("codecompanion").setup({
       codex = function()
         return require("codecompanion.adapters").extend("codex", {
           defaults = {
-            auth_method = "chat-gpt",
+            auth_method = "chatgpt",
           },
         })
       end,
